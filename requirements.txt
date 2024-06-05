@@ -13,4 +13,4 @@ flask_bcrypt==1.0.1
 wtforms==3.0.1
 flask_sqlalchemy==3.0.5
 sqlalchemy==2.0.19
-numpy==1.24.3
+numpy==1.26.4
