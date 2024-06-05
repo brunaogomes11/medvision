@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{url_for('static', filename='icons/favicon/apple-touch-icon.png')}}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{url_for('static', filename='icons/favicon/favicon-32x32.png')}}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{url_for('static', filename='icons/favicon/favicon-16x16.png')}}">
+    <link rel="manifest" href="{{url_for('static', filename='icons/favicon/site.webmanifest')}}">
+    
+    <script src="https://unpkg.com/htmx.org@1.9.5"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{{url_for('static', filename='js/dashboard.js')}}"></script>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/dashboard.css')}}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <title>Dashboard</title>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <img src="../static/icons/favicon/android-chrome-512x512.png" alt="">
+            <h1>MedVision</h1>
+        </a>
+
+        <nav class="parent-links">
+            <a href="/sobre">Sobre</a>
+            <a href="/" class="dashboard-link">Dashboard</a>
+        </nav>
+    </header>
+
+    <main id="main-content">
+        <h1>MedVision</h1>
+
+        <form id="file-form" method="POST" enctype="multipart/form-data">
+            {{ form.hidden_tag() }}
+            {{ form.image }}
+            <input type="submit" value="Enviar">
+        </form>
+
+        <img id="Loading" src="../static/images/Ellipsis-1.3s-200px (1).svg" alt="">
+
+        {% with msg = get_flashed_messages() %}
+            {% if msg %}
+                <div class="labels-container">
+                    <img src="data:image/png;base64,{{msg[0]}}" alt="">
+
+                    <figure class="predictions-container">
+                        <figcaption>Resultados</figcaption>
+                        
+                        <ul>
+                            {% if msg[1]|length >= 3 %}
+                                {% for i in range(3) %}
+                                <li><strong> {{ msg[1][i|string][0] }}:</strong> {{ msg[1][i|string][1] }}%</li>
+                                {% endfor %}
+                            {% else %}
+                                {% for i in range(2) %}
+                                <li><strong> {{ msg[1][i|string][0] }}:</strong> {{ msg[1][i|string][1] }}%</li>
+                                {% endfor %}
+                            {% endif %}
+                        </ul>
+                    </figure>
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <form action="/redirect-to-model" method="POST" id="confirmModal" class="modal">
+            <div class="modal-card">
+                <h2>Tela de Confirmação</h2>
+        
+                <p>Foi detectado uma imagem do tipo: <strong id="class-name-modal">{{ modal_class_name }}</strong>.</p>
+                <p>Essa predição está correta?</p>
+        
+                <img src="" alt="">
+
+                <div>
+                    <button type="submit" class="modal-confirm-btn redirect-to-model">Sim</button>
+                    <button type="button" class="modal-close-btn models-switch">Não</button>
+                </div>
+            </div>
+        </form>
+
+        <form id="errorModal" class="modal">
+            <div class="modal-card">
+                <h2>Imagem Inválida</h2>
+        
+                <p>Foi detectado uma imagem não médica ou que não é suportada pelo sistema.</p>
+                <p>Envie uma imagem válida.</p>
+                
+                <img src="" alt="">
+
+                <div>
+                    <button type="button" class="modal-confirm-btn models-switch">Escolher modelo</button>
+                    <button hx-post="/clear-session" hx-target="none" type="button" class="modal-close-btn">Voltar</button>
+                </div>
+            </div>
+        </form>
+
+        <form action="/redirect-to-model" id="manualRedirect" class="modal" method="POST">
+            <div class="modal-card">    
+                <h2>Escolha o modelo</h2>
+                <div class="box">
+                    <span>Ressonância Magnética do Cérebro</span>
+                    <button type="submit" name="index" value="1" class="modal-confirm-btn redirect-to-model">Escolher</button>
+                </div>
+                <div class="box">
+                    <span>Raio-X do Pulmão</span>
+                    <button type="submit" name="index" value="3" class="modal-confirm-btn redirect-to-model">Escolher</button>
+                </div>
+                <div class="box">
+                    <span>Ressonância Magnética do Joelho</span>
+                    <button type="submit" name="index" value="4" class="modal-confirm-btn redirect-to-model">Escolher</button>
+                </div>
+                <div class="box">
+                    <span>Raio-X do Joelho</span>
+                    <button type="submit" name="index" value="5" class="modal-confirm-btn redirect-to-model">Escolher</button>
+                </div>
+                <div class="box">
+                    <span>Oftalmoscopia</span>
+                    <button type="submit" name="index" value="7" class="modal-confirm-btn redirect-to-model">Escolher</button>
+                </div>
+                <div>
+                    <button hx-post="/clear-session" hx-target="none" type="button" class="modal-close-btn">Voltar</button>
+                </div>
+            </div>
+        </form>
+    </main>
+</body>
+</html>

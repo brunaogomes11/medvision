@@ -1,0 +1,123 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@200;400;700&family=Open+Sans:wght@400;700&display=swap'); */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600&family=Roboto:wght@100;300;400;500;700&display=swap');
+
+html {
+    font-family: 'Montserrat', 'Roboto', Arial, Helvetica, sans-serif;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+}
+
+.containerPrincipal {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: row;
+}
+
+.containerFoto {
+    width: 60vw;
+    height: 100%;
+    background-color: #000041;
+    background-image: url('../images/background-register.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: -10vw;
+    border-radius: 0 20px 20px 0;
+}
+
+.containerForm {
+    padding: 20px;
+    width: 40vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.heading {
+    font-size: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-grow: 1;
+}
+
+#formRegistro {
+    width: 80%;
+    flex-grow: 1;
+}
+
+#formRegistro form {
+    display: flex;
+    flex-direction: column;
+}
+
+#formRegistro p {
+    text-align: center;
+}
+
+
+#formRegistro input {
+    border: 1px solid #44444471;
+    padding: 5px 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border-bottom: 2px solid black;
+}
+
+#formRegistro input[type=submit] {
+    font-size: 1.05rem;
+}
+
+#formRegistro input[type=submit]:hover {
+    cursor: pointer;
+    background-color: #cecece;
+}
+
+.textForm {
+    font-size: 1.2rem;
+    font-weight: 200;
+    padding-left: 0.25rem;
+    padding-bottom: 0.25rem;
+}
+
+#loginref {
+    color: black;
+}
+
+@media (max-width: 798px) {
+    html {
+        font-size: 80%;
+    }
+
+    .containerPrincipal {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .containerFoto {
+        width: 100%;
+        height: 25rem;
+        border-radius: 0 0 20px 20px;
+        background-position: right;
+    }
+
+    .heading {
+        font-size: 1.6rem;
+    }
+
+    .containerForm {
+        width: 80%;
+    }
+
+    #formRegistro {
+        width: 100%;
+    }
+
+    #formRegistro form {
+        gap: .4rem;
+    }
+}
